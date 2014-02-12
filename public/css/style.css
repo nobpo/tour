@@ -1,0 +1,81 @@
+@font-face {
+ font-family: thai_san;
+    src: url('../font/thaisanslite_r1-webfont.eot');
+    src: url('../font/thaisanslite_r1-webfont.eot?') format('embedded-opentype'), 
+         url('../font/thaisanslite_r1-webfont.woff') format('woff'), 
+         url('../font/thaisanslite_r1-webfont.ttf') format('truetype');
+ font-weight: normal;
+ font-style: normal;
+
+}
+
+body{
+	font-family: thai_san;
+	font-size: 130%;
+}
+
+.lead{
+	font-size: 130%;
+}
+
+table{
+	font-size: 110%;
+}
+
+h1, h2, h3, h4, h5, h6{
+	font-size: 150%;
+}
+
+.word-wrap-50{
+	height: 50px;	
+	overflow: hidden;
+}
+
+.rate_widget {
+    border:     1px solid #CCC;
+    overflow:   visible;
+    padding:    10px;
+    position:   relative;
+    width:      180px;
+    height:     32px;
+}
+.ratings_stars {
+    background: url('../img/star_empty.png') no-repeat;
+    float:      left;
+    height:     28px;
+    padding:    2px;
+    width:      32px;
+}
+.ratings_vote {
+    background: url('../img/star_full.png') no-repeat;
+}
+.ratings_over {
+    background: url('../img/star_highlight.png') no-repeat;
+}
+
+.total_votes {
+    background: #eaeaea;
+    top: 58px;
+    left: 0;
+    padding: 5px;
+    position:   absolute;  
+} 
+
+.movie_choice {
+    /*font: 10px verdana, sans-serif;*/
+    /*margin: 0 auto 40px auto;*/
+    /*width: 180px;*/
+}
+
+form{
+	font-family: 'thai_san' !important;
+}
+
+.add-search{
+	width: 220px;
+	padding: 20px;
+	border: 5px solid gray;
+	border-radius: 5px;
+	background-color: rgb(220, 220, 220);
+	margin: 5px;
+}
