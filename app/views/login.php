@@ -11,7 +11,6 @@
 		echo Session::get('notify') ? "<p class='alert'>" . Session::get('notify') . "</p>" : "" ;
 		if(Auth::check()) echo "<a href='/logout'>ออกจากระบบ</a>";
 		//var_dump(Auth::check());
-		var_dump(Auth::User());
 	 ?>
 	 <div class="navbar navbar-inverse">
   		Tourist Attraction Webpage

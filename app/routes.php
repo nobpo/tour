@@ -139,6 +139,7 @@ Route::post('/reg', function()
 });
 
 Route::get('/login', function(){
+	if(Auth::check()) return Redirect::to('/')->with('notify', 'ท่านได้เข้าสู่ระบบแล้ว');
 	return View::make('login');
 });
 
@@ -147,9 +148,13 @@ Route::post('/login', function(){
 					'password' => Input::get('password') );
 
 	if(Auth::attempt($user)){
-		return var_dump(Auth::User());
 		return Redirect::to('/')->with('notify', 'เข้าสู่ระบบสำเร็จ');
 	}
 
 	return Redirect::to('/login')->with('notify', 'เข้าสุ่ระบบไม่สำเร็จ');
+});
+
+Route::get('/logout', function(){
+	Auth::logout();
+	return Redirect::to('/')->with('notify', 'ออกจากระบบ');
 });

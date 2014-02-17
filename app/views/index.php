@@ -9,9 +9,10 @@
 <body>
 	<?php 
 		echo Session::get('notify') ? "<p class='alert'>" . Session::get('notify') . "</p>" : "" ;
-		if(Auth::check()) echo "<a href='/logout'>ออกจากระบบ</a>";
+		if(Auth::check()) echo "<a href='logout'>ออกจากระบบ</a>";
 		//var_dump(Auth::check());
-		var_dump(Auth::User());
+		
+		//var_dump(Session::get('user'));
 		
 	 ?>
 	 <div class="navbar navbar-inverse">
@@ -41,9 +42,14 @@
 	  </div>
 	</form> -->
 <div class="span4">
-	<a href="login">
-		<button class="btn btn-primary" style="width:200px">เข้าสู่ระบบ</button>
-	</a>
+	<?php 
+		if(!Auth::check()) echo '
+			<a href="login">
+			<button class="btn btn-primary" style="width:200px">เข้าสู่ระบบ</button>
+			</a>';
+		else echo '<h3>ยินดีต้อนรับ คุณ '. Auth::user()->name_first . ' ' . Auth::user()->name_last . '</h3>'
+	?>
+	
 </div>
 
 <div style="clear:both; height: 100px"></div>

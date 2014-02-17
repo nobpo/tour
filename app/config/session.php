@@ -16,7 +16,7 @@ return array(
 	|
 	*/
 
-	'driver' => 'native',
+	'driver' => 'file',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ return array(
 	|
 	*/
 
-	'lifetime' => 0,
+	'lifetime' => 120,
 
 	'expire_on_close' => false,
 
