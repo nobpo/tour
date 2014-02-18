@@ -106,6 +106,8 @@ Route::get('/tour/{id}', function($id){
 	return View::make('tour_detail')->with('tour', $tour);
 });
 
+Route::controller('/tour/{id}/rate', 'RateController');
+
 Route::get('/reg', function()
 {
 	return View::make('reg');
@@ -158,3 +160,4 @@ Route::get('/logout', function(){
 	Auth::logout();
 	return Redirect::to('/')->with('notify', 'ออกจากระบบ');
 });
+

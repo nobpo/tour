@@ -56,7 +56,7 @@
                 <h1>ข้อมูลของสถานที่ท่องเที่ยว <?php echo $tour[0]->Tour_attr_name ?></h1>
                 <div class='movie_choice'>
                     Rate: <?php echo $tour[0]->Tour_attr_name ?>
-                    <div id="r1" class="rate_widget">
+                    <div id="<?php echo $tour[0]->Tour_attr_id; ?>" class="rate_widget">
                         <div class="star_1 ratings_stars"></div>
                         <div class="star_2 ratings_stars"></div>
                         <div class="star_3 ratings_stars"></div>
@@ -157,20 +157,10 @@
     
   
     <script src="../js/jquery-1.11.0.min.js"></script>
+    <script type="text/JavaScript" src="../js/rate.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
-            $('.ratings_stars').hover(
-                // Handles the mouseover
-                function() {
-                    $(this).prevAll().andSelf().addClass('ratings_over');
-                    $(this).nextAll().removeClass('ratings_vote'); 
-                },
-                // Handles the mouseout
-                function() {
-                    $(this).prevAll().andSelf().removeClass('ratings_over');
-                    set_votes($(this).parent());
-                }
-            );
+            
         });
         
     </script>
