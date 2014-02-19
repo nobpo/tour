@@ -51,17 +51,16 @@
 
         <div class="row">
             <div class="col-lg-8">
-
                 <!-- the actual blog post: title/author/date/content -->
                 <h1>ข้อมูลของสถานที่ท่องเที่ยว <?php echo $tour[0]->Tour_attr_name ?></h1>
                 <div class='movie_choice'>
                     Rate: <?php echo $tour[0]->Tour_attr_name ?>
                     <div id="<?php echo $tour[0]->Tour_attr_id; ?>" class="rate_widget">
-                        <div class="star_1 ratings_stars"></div>
-                        <div class="star_2 ratings_stars"></div>
-                        <div class="star_3 ratings_stars"></div>
-                        <div class="star_4 ratings_stars"></div>
-                        <div class="star_5 ratings_stars"></div>
+                        <div id="1" class="star_1 ratings_stars"></div>
+                        <div id="2" class="star_2 ratings_stars"></div>
+                        <div id="3" class="star_3 ratings_stars"></div>
+                        <div id="4" class="star_4 ratings_stars"></div>
+                        <div id="5" class="star_5 ratings_stars"></div>
                         <div class="total_votes">vote data</div>
                     </div>
                 </div>

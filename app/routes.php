@@ -108,6 +108,7 @@ Route::get('/tour/{id}', function($id){
 
 Route::controller('/tour/{id}/rate', 'RateController');
 
+
 Route::get('/reg', function()
 {
 	return View::make('reg');
@@ -150,6 +151,7 @@ Route::post('/login', function(){
 					'password' => Input::get('password') );
 
 	if(Auth::attempt($user)){
+		Session::put('user', Auth::user());
 		return Redirect::to('/')->with('notify', 'เข้าสู่ระบบสำเร็จ');
 	}
 
@@ -158,6 +160,7 @@ Route::post('/login', function(){
 
 Route::get('/logout', function(){
 	Auth::logout();
+	Session::forget('user');
 	return Redirect::to('/')->with('notify', 'ออกจากระบบ');
 });
 

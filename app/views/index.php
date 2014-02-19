@@ -9,7 +9,9 @@
 <body>
 	<?php 
 		echo Session::get('notify') ? "<p class='alert'>" . Session::get('notify') . "</p>" : "" ;
-		if(Auth::check()) echo "<a href='logout'>ออกจากระบบ</a>";
+		if(Session::get('user')) echo "<a href='logout'>ออกจากระบบ</a>";
+
+		//var_dump(Session::get('user'));
 		//var_dump(Auth::check());
 		
 		//var_dump(Session::get('user'));
@@ -41,13 +43,17 @@
 	    </div>
 	  </div>
 	</form> -->
+
 <div class="span4">
 	<?php 
-		if(!Auth::check()) echo '
+		if(!Session::get('user')) echo '
 			<a href="login">
 			<button class="btn btn-primary" style="width:200px">เข้าสู่ระบบ</button>
 			</a>';
-		else echo '<h3>ยินดีต้อนรับ คุณ '. Auth::user()->name_first . ' ' . Auth::user()->name_last . '</h3>'
+		else {
+			$user = Session::get('user');
+			echo '<h3>ยินดีต้อนรับ คุณ '. $user->name_first . ' ' . $user->name_last . '</h3>';
+		}
 	?>
 	
 </div>
@@ -94,27 +100,55 @@
 <hr styld="width: 900px">
 <div class="row-fluid" style="width: 900px; margin:20px;">
 	<?php 
-		$data = DB::table('tourrist_attrac')->get();
+		$data = DB::table('tourrist_attrac')->orderBy('Tour_attr_id')->get();
 	?>
 	<div class="span4" style="background-color: rgb(230,230,230); border: 2px solid gray; border-radius:5px; padding: 5px; height: 300px">
 		<?php 
-			$num = rand(0, sizeof($data));
+			$num = rand(0, sizeof($data)-1);
 			echo "<a href='tour/". $data[$num]->Tour_attr_id ."'><h5>" . $data[$num]->Tour_attr_name . "</h5></a>";
 			echo substr($data[$num]->Description, 0, 1000) . "..."; 
 		?>
 	</div>
 	<div class="span4" style="background-color: rgb(230,230,230); border: 2px solid gray; border-radius:5px; padding: 5px; height: 300px">
 		<?php 
-			$num = rand(0, sizeof($data));
+			$num = rand(0, sizeof($data)-1);
 			echo "<a href='tour/". $data[$num]->Tour_attr_id ."'><h5>" . $data[$num]->Tour_attr_name . "</h5></a>";
 			echo substr($data[$num]->Description, 0, 1000) . "..."; 
 		?>
 	</div>
 	<div class="span4" style="background-color: rgb(230,230,230); border: 2px solid gray; border-radius:5px; padding: 5px; height: 300px">
 		<?php 
-			$num = rand(0, sizeof($data));
+			$num = rand(0, sizeof($data)-1);
 			echo "<a href='tour/". $data[$num]->Tour_attr_id ."'><h5>" . $data[$num]->Tour_attr_name . "</h5></a>";
 			echo substr($data[$num]->Description, 0, 1000) . "..."; 
+		?>
+	</div>
+
+</div>
+
+<div style="clear:both; height: 100px"></div>
+<h4 style="width: 900px; margin-left: 20px;">ฮิตที่สุด</h4>
+<hr styld="width: 900px">
+<div class="row-fluid" style="width: 900px; margin:20px;">
+	<?php 
+		$rank = DB::table('rate_tour')->orderBy('total_point', 'desc')->lists('Tour_attr_id');
+	?>
+	<div class="span4" style="background-color: rgb(230,230,230); border: 2px solid gray; border-radius:5px; padding: 5px; height: 300px">
+		<?php 			
+			echo "<a href='tour/". $data[$rank[0]-1]->Tour_attr_id ."'><h5>" . $data[$rank[0]-1]->Tour_attr_name . "</h5></a>";
+			echo substr($data[$rank[0]-1]->Description, 0, 1000) . "..."; 
+		?>
+	</div>
+	<div class="span4" style="background-color: rgb(230,230,230); border: 2px solid gray; border-radius:5px; padding: 5px; height: 300px">
+		<?php 
+			echo "<a href='tour/". $data[$rank[1]-1]->Tour_attr_id ."'><h5>" . $data[$rank[1]-1]->Tour_attr_name . "</h5></a>";
+			echo substr($data[$rank[1]-1]->Description, 0, 1000) . "..."; 
+		?>
+	</div>
+	<div class="span4" style="background-color: rgb(230,230,230); border: 2px solid gray; border-radius:5px; padding: 5px; height: 300px">
+		<?php 
+			echo "<a href='tour/". $data[$rank[2]-1]->Tour_attr_id ."'><h5>" . $data[$rank[2]-1]->Tour_attr_name . "</h5></a>";
+			echo substr($data[$rank[2]-1]->Description, 0, 1000) . "..."; 
 		?>
 	</div>
 
