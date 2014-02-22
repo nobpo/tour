@@ -32,9 +32,13 @@ Route::post('/', function(){
 		if(Input::get('add'.$i)) 
 			array_push($condition, $i);
 	}
+	$type = Input::get('type');
+
 
 	if(Input::get('province') == 0 && Input::get('district') == 0){
-	 	$data_temp = DB::table('tourrist_attrac')->get();
+		
+		if($type == '0') $data_temp = DB::table('tourrist_attrac')->get(); 
+		else $data_temp = DB::table('tourrist_attrac')->where('Tour_type', $type)->get();
 			$data = array();
 			foreach ($data_temp as $key) {
 				$check = 1;
@@ -53,12 +57,13 @@ Route::post('/', function(){
 
 
 	 	return View::make('search')->with('data', $data);
-	}else {
+	} else {
 		if(Input::get('district') == 0){
 			$district = DB::table('district')->where('Province_id', Input::get('province'))->lists('District_id');
 			$tour_id = DB::table('in_district')->whereIn('District_id', $district)->lists('Tour_attr_id');
 			if(empty($tour_id)) return View::make('search')->with('notify', 'ไม่พบข้อมูล');
-			$data_temp = DB::table('tourrist_attrac')->whereIn('Tour_attr_id', $tour_id)->get();
+			if($type == '0')	$data_temp = DB::table('tourrist_attrac')->whereIn('Tour_attr_id', $tour_id)->get();
+			else $data_temp = DB::table('tourrist_attrac')->whereIn('Tour_attr_id', $tour_id)->where('Tour_type', $type)->get();
 			$data = array();
 			foreach ($data_temp as $key) {
 				$check = 1;
@@ -69,7 +74,7 @@ Route::post('/', function(){
 						$check = 0;
 						break;
 					}
-				}
+			}
 				if($check == 1) array_push($data, $key);
 
 			}
@@ -79,7 +84,8 @@ Route::post('/', function(){
 		} else {
 			$tour_id = DB::table('in_district')->where('District_id', Input::get('district'))->lists('Tour_attr_id');
 			if(empty($tour_id)) return View::make('search')->with('notify', 'ไม่พบข้อมูล');
-			$data_temp = DB::table('tourrist_attrac')->whereIn('Tour_attr_id', $tour_id)->get();
+			if($type == '0')	$data_temp = DB::table('tourrist_attrac')->whereIn('Tour_attr_id', $tour_id)->get();
+			else $data_temp = DB::table('tourrist_attrac')->whereIn('Tour_attr_id', $tour_id)->where('Tour_type', $type)->get();
 			$data = array();
 			foreach ($data_temp as $key) {
 				$check = 1;
@@ -106,7 +112,30 @@ Route::get('/tour/{id}', function($id){
 	return View::make('tour_detail')->with('tour', $tour);
 });
 
+Route::post('/tour/{id}', function($id){
+	if(Auth::check()){
+		$comment['User_id'] = Auth::user()->id;
+		$comment['Tour_attr_id'] = $id;
+		$comment['comment'] = Input::get('comment');
+		DB::table('comment')->insert($comment);
+	    return Redirect::to('/tour/'.$id)->with('notify', 'แสดงความคิดเห็นเสร็จสิ้น');
+	}else {
+		return Redirect::to('/tour/'.$id)->with('notify', 'เกิดข้อผิดพลาด');
+	}
+});
+
+Route::get('/tour/{id}/erase/{erase}', function($id, $erase){
+	$comment = DB::table('comment')->where('id', $erase)->get();
+	if($comment[0]->User_id == Auth::user()->id){
+		DB::table('comment')->where('id', $erase)->delete();
+		return Redirect::to('/tour/'.$id)->with('notify', 'ลบความคิดเห็นเรียบร้อย');
+	}else {
+		return Redirect::to('/tour/'.$id)->with('notify', 'เกิดข้อผิดพลาด');
+	}
+});
+
 Route::controller('/tour/{id}/rate', 'RateController');
+
 
 Route::get('/reg', function()
 {
@@ -150,6 +179,7 @@ Route::post('/login', function(){
 					'password' => Input::get('password') );
 
 	if(Auth::attempt($user)){
+		Session::put('user', Auth::user());
 		return Redirect::to('/')->with('notify', 'เข้าสู่ระบบสำเร็จ');
 	}
 
@@ -158,6 +188,22 @@ Route::post('/login', function(){
 
 Route::get('/logout', function(){
 	Auth::logout();
+	Session::forget('user');
 	return Redirect::to('/')->with('notify', 'ออกจากระบบ');
 });
+
+Route::get('/hotel',function(){
+	$data = DB::table('hotel')->get();
+	return View::make('list-hotel')->with('data', $data);
+});
+
+Route::get('/restaurant',function(){
+	$data = DB::table('restaurant')->get();
+	return View::make('list-restaurant')->with('data', $data);
+});
+
+Route::get('/contract',function(){
+	return View::make('contract');
+});
+
 

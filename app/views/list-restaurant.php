@@ -17,22 +17,22 @@
 		<?php 
 		if(isset($data)){
 			echo "<tr>
-					<td><b>หมายเลขสถานที่ท่องเที่ยว</b></td>
+					<td><b>หมายเลขโรงแรม</b></td>
 					<td><b>ชื่อ</b></td>
-					<td><b>picture</b></td> 
-					<td><b>รายละเอียด</b></td>
+					<td><b>รูปภาพ</b></td> 
+					<td><b>แผนที่</b></td>
 					
 					<td><b>เว็บไซด์</b></td>
 				  </tr>";
 			
-			foreach ($data as $tour) {
+			foreach ($data as $Rest) {
 				echo "<tr>
-						<td><a href='tour/" . $tour->Tour_attr_id . "'>" . $tour->Tour_attr_id . "</a></td>
-						<td><a href='tour/" . $tour->Tour_attr_id . "'>" . $tour->Tour_attr_name . "</a></td>
-						<td><img src='".$tour->Tour_pic."'/></td>
-						<td class='word-wrap-50'>" . substr($tour->Description, 0, 800) . "..." . "</td>
+						<td>" . $Rest->Rest_id . "</td>
+						<td>" . $Rest->Rest_name . "</td>
+						<td><img src='".$Rest->Rest_pic."'/></td>
+						<td><a href='http://maps.google.com/maps?q=". $Rest->Rest_lat . ",". $Rest->Rest_long . "'>คลิกเพื่อดูแผนที่</a></td>
 						
-						<td><a href='http://" . $tour->Tour_web . "'>" . $tour->Tour_web . "</a></td>
+						<td><a href='http://" . $Rest->Rest_web . "'>" . $Rest->Rest_web . "</a></td>
 				  	  </tr>";
 			}
 		}

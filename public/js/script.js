@@ -1,7 +1,10 @@
 $(document).ready(function(){
 
+	
+
 	var province;
 	var province_def = 0;
+
 
 	$.ajax({
 			//url: '/PCU17/public/service/amphur/',
@@ -96,9 +99,13 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#type select').val(0);
+
 	for(var i = 1; i <= 12; i++){
 		$("input[name='add" + i + "']").attr('checked', false);
 	}
+
+
 
 	
 

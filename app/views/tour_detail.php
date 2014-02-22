@@ -47,30 +47,35 @@
 </head>
 
 <body>
+    
+        <?php 
+            echo Session::get('notify') ? "<p class='alert'>" . Session::get('notify') . "</p>" : "" ;
+         ?>
     <div class="container">
 
         <div class="row">
             <div class="col-lg-8">
-
                 <!-- the actual blog post: title/author/date/content -->
                 <h1>ข้อมูลของสถานที่ท่องเที่ยว <?php echo $tour[0]->Tour_attr_name ?></h1>
+                <a href="/tourist_attraction/public" style="float:right">กลับหน้าหลัก</a>
                 <div class='movie_choice'>
                     Rate: <?php echo $tour[0]->Tour_attr_name ?>
                     <div id="<?php echo $tour[0]->Tour_attr_id; ?>" class="rate_widget">
-                        <div class="star_1 ratings_stars"></div>
-                        <div class="star_2 ratings_stars"></div>
-                        <div class="star_3 ratings_stars"></div>
-                        <div class="star_4 ratings_stars"></div>
-                        <div class="star_5 ratings_stars"></div>
+                        <div id="1" class="star_1 ratings_stars"></div>
+                        <div id="2" class="star_2 ratings_stars"></div>
+                        <div id="3" class="star_3 ratings_stars"></div>
+                        <div id="4" class="star_4 ratings_stars"></div>
+                        <div id="5" class="star_5 ratings_stars"></div>
                         <div class="total_votes">vote data</div>
                     </div>
                 </div>
                 <hr>
+                    <div style="text-align:center">
                     <?php 
                     header('Content-type: image/jpeg');
                     if(is_null($tour[0]->Tour_pic)) echo '<img src="http://placehold.it/900x300" class="img-responsive">';
-                          else echo $tour[0]->Tour_pic;  ?>
-                
+                          else echo "<img src='".$tour[0]->Tour_pic."'/>" ;   ?>
+                    </div>
                 <hr>
                 <p class="lead"><b>ข้อมูลเพิ่มเติม:</b></p>
                 	<p><?php echo $tour[0]->Description ?></p>
@@ -134,6 +139,36 @@
                 <hr>
                 <p class="lead"><b>แผนที่:</b></p>
                 	<div id="map-canvas" style="height:300px"></div>
+                </p>                
+                <hr>
+                <p class="lead"><b>ความคิดเห็น:</b></p>
+                    <?php 
+                        $comment = DB::table('comment')->where('Tour_attr_id', $tour[0]->Tour_attr_id)->get();
+                        if(sizeof($comment) != 0){
+                            echo "<table class='table'><tr>
+                                  <th style='width:300px'>ผู้ใช้</th>
+                                  <th style='width:600px'>ความคิดเห็น</th><tr>";
+                            foreach ($comment as $key) {
+                                    $user = DB::table('users')->where('id', $key->User_id)->get();
+                                    $username = $user[0]->username;
+                                    $time = $key->time;
+                                    echo "<tr><td>" . $username . '<br><small style="font-size:75%; color:gray;">เมื่อ' . $time ;
+                                    if($key->User_id==Auth::user()->id) echo "<br><a href='". $tour[0]->Tour_attr_id . "/erase/" . $key->id . "'>ลบ</a>";
+                                    echo "</small></td><td>" . $key->comment . "</td><tr>";
+                            }      
+                            echo "</table>";
+                        }else {
+                            echo "<br>ไร้ความคิดเห็น";
+                        }
+                        echo "<hr>";
+
+                        if(Auth::check()){
+                            echo "แสดงความคิดเห็น<br><br><form method='POST'><textarea class='form-control' id='comment' name='comment' style='width:100%; font-size: 150%;' row='5'></textarea>";
+                            echo "<br><input type='submit' class='btn btn-primary' value='ส่งความคิดเห็น'/></form>";
+                        }else{
+                            echo "กรุณาเข้าสู่ระบบก่อนแสดงความคิดเห็น";
+                        }
+                    ?>
                 </p>                
                 <hr>	
             </div>
