@@ -61,7 +61,9 @@ $(document).ready(function(){
             set_votes(widget);
         });
 
+
         alert('ขอบคุณที่ Rate ครับ');
+        location.reload();
     });
 
 
